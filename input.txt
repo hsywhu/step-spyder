@@ -1,0 +1,1037 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge,chrome=1">
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">    
+    <link href="/css/base.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/css/course/experiment-v3.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/favicon.ico" rel="shortcut icon">    <script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="/js/base.js"></script>
+<script type="text/javascript" src="/js/tool/note.js"></script>
+<script type="text/javascript" src="/js/tool/discuss.js"></script>     <title>https站点搭建与CA实现-网络安全实验课(2017) - 武汉大学-</title> 
+</head>
+ 
+ 
+<script type="text/javascript" src="/js/layer/laytpl.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<link rel="stylesheet" href="/editor.md-master/css/editormd.preview.css" />
+<script type="text/javascript" src="/js/course/all.min.js"></script>
+<script type="text/javascript" src="/js/course/jquery.md5.js"></script>
+<script type="text/javascript">
+    var chapter_id = 4;
+    var courseware_id = 8142;
+    var complete_time = 0;
+    var student_id = 71446;
+    var originalTime = "";
+    var is_openstack = '1';
+    var uuid=0;
+</script>
+<body>
+<div class="tips_browser">为了您更好运行实验，建议您选择火狐浏览器<a target="_blank" title="立即下载火狐浏览器"
+                                                 href="http://download.firefox.com.cn/releases/stub/official/zh-CN/Firefox-latest.exe">火狐浏览器</a>
+    <span id="closetips" title="关闭"></span></div>
+<!-- main -->
+<div class="g-container clearfix">
+    <input type="hidden" id="courseware_id" value="8142"/>
+    <input type="hidden" id="chapter_id" value="4"/>
+    <div class="toolbar">
+        <a href="/course/8142" class="btn returnbtn"><i></i>返回课程</a>
+        <a href="javascript:void(0);" class="btn startbtn" id="startbtn"><i></i><p id="startOrStop">开始</p></a>
+        <a href="javascript:void(0);" class="btn stopbtn" id="stopbtn" style="display: none"><i></i><p id="startOrStop">关闭</p></a>
+        <a href="javascript:void(0);" class="btn stopbtn" id="starting" style="display: none"><i></i><p id="startOrStop">启动中</p></a>
+        <a href="javascript:void(0);" class="btn stopbtn" id="wrong" style="display: none"><i></i><p id="startOrStop">失败</p></a>
+<!--        <a href="javascript:;" class="btn ipAdd" style="visibility:visible;">
+            <em>操作机IP:</em>192.168.1.12
+            <br>
+            <em>目标机IP:</em>192.168.1.12
+        </a>-->
+        <div class="selectwrap" id='selectVm'>
+                     </div>
+        <a href="javascript:;" class="btn screenshotbtn" id="screenshot"><i></i> <span><b></b>截屏</span> </a>
+        <!--<a href="javascript:;" class="btn copyVMbtn" id="copyVMbtn"><i></i> <span><b></b>复制到VM</span> </a>-->
+        <a href="javascript:;" class="btn ctrlbtn" id="sendCtrlAltDel"><i></i> <span><b></b>发送 CTRL+ALT+DEL</span> </a>
+        <a href="javascript:;" class="btn wd36 sharedesktopbtn" id="sharedesktopbtn"><i></i> <span><b></b>共享桌面</span> </a>
+        <!--<a href="javascript:;" class="btn wd36 txtdownbtn"><i></i> <span><b></b>代码下载</span> </a>-->
+        <a href="javascript:;" class="btn wd36 fullscreenbtn"><i id="quanping" onclick="quanping()"></i> <span><b></b>全屏显示</span>
+        </a>
+        <!--<a href="javascript:;" class="btn wd36 cutcreenbtn"><i></i> <span><b></b>实验录屏</span> </a>-->
+<!--        <a href="javascript:;" class="btn timewrap">剩余时间<em>1</em>时<em>59</em>分<em>32</em>秒</a>-->
+        <a href="javascript:;" class="btn timewrap" id="divOSTime">剩余时间<em>00</em>时<em>00</em>分<em>00</em>秒</a>
+    </div>
+    <div class="g-main">
+        <!--id left-->
+        <div id="vm-main">
+            <div class="wait-logo" id="wait-logo"> <!--背景logo层 style="display: none;"-->  </div>
+            <!--提示层-->
+            <div class="tips_layerwrap"  style="display: none;" id="tishiceng">
+                <div class="tips_layer">
+                    <div class="sk-fading-circle">
+                        <span class="percent" id="jindutiao">0%</span>
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                    <p class="cld-1">正在努力的为您构建实验环境......</p>
+                    <p class="cld-2">请耐心等待哦！等待时您可以先预习一下右侧的实验指导书</p>
+                    <p class="cld-3">为了您更好运行实验，建议您选择火狐浏览器，设置屏幕分辨率为1366*768</p>
+                </div>
+            </div>
+            <!--提示层-->
+            <div id="display"><!--<img src="/images/course/1.jpg" height="100%">--></div>
+            <div id="display-layer"></div>
+        </div>
+
+        <!--dragbox-->
+        <ul id="dragIconBar">
+            <li>
+                <a href="javascript:;" class="icon1">指导<i></i></a>
+                <span>指导</span>
+            </li>
+            <li>
+                <a href="javascript:;" class="icon2">问答<i></i></a>
+                <span>问答</span>
+            </li>
+            <li>
+                <a href="javascript:;" class="icon3">笔记<i></i></a>
+                <span>笔记</span>
+            </li>
+        </ul>
+        <!---->
+        <div id="leftdragbar"></div>
+        <div id="dragbox">
+            <!---->
+            <div style="width:100%; height: 100%; position:relative;overflow: hidden;">
+
+                <h2 class="draghand">鼠标按住拖动</h2>
+                <div id="foldBar" title="最小化"></div>
+                <div id="drag"><!--拖--></div>
+                <div id="right"></div>
+                <div id="bottom"></div>
+
+                <!--inner-->
+
+
+                <div class="dragTabList">
+                    <ul class="rt_tabNav clearfix">
+                        <li class="cur">指导</li>
+                        <li onclick="discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','4','');">问答</li>
+                        <li class="" onclick="noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','4','');">笔记</li>
+                    </ul>
+                    <!---->
+                    <div class="list_tab_con">
+
+                        <ul class="tab_con">
+                            <div class="add-member" id="addEval">
+
+                                <div id="test-editormd-view2">
+                                        <textarea id="append-test" style="display:none;"># https站点搭建与CA实现
+## 【实验目的】
+1）学习CA的搭建
+2）学习HTTPS站点的发布
+## 【实验原理】
+所谓CA（Certificate Authority）认证中心，它是采用PKI（Public Key Infrastructure）公开密钥基础架构技术，专门提供网络身份认证服务，负责签发和管理数字证书，且具有权威性和公正性的第三方信任机构，它的作用就像我们现实生活中颁发证件的公司，如护照办理机构。目前国内的CA认证中心主要分为区域性CA认证中心和行业性CA认证中心。
+所谓根证书，是CA认证中心与用户建立信任关系的基础，用户的数字证书必须有一个受信任的根证书，用户的数字证书才是有效的。从技术上讲，证书其实包含三部分，用户的信息，用户的公钥，还有CA中心对该证书里面的信息的签名，要验证一份证书的真伪（即验证CA中心对该证书信息的签名是否有效），需要用CA中心的公钥验证，而CA中心的公钥存在于对这份证书进行签名的证书内，故需要下载该证书，但使用该证书验证又需先验证该证书本身的真伪，故又要用签发该证书的证书来验证，这样一来就构成一条证书链的关系，这条证书链在哪里终结呢？答案就是根证书，根证书是一份特殊的证书，它的签发者是它本身，下载根证书就表明您对该根证书以下所签发的证书都表示信任，而技术上则是建立起一个验证证书信息的链条，证书的验证追溯至根证书即为结束。所以说用户在使用自己的数字证书之前必须先下载根证书。
+数字证书里存有很多数字和英文，当使用数字证书进行身份认证时，它将随机生成128位的身份码，每份数字证书都能生成相应但每次都不可能相同的数码，从而保证数据传输的保密性，即相当于生成一个复杂的密码。
+数字证书绑定了公钥及其持有者的真实身份，它类似于现实生活中的居民身份证，所不同的是数字证书不再是纸质的证照，而是一段含有证书持有者身份信息并经过认证中心审核签发的电子数据，可以更加方便灵活地运用在电子商务和电子政务中。
+数字证书颁发过程一般为:用户首先产生自己的密钥对，并将公共密钥及部分个人身份信息传送给认证中心。认证中心在核实身份后，将执行一些必要的步骤，以确信请求确实由用户发送而来，然后，认证中心将发给用户一个数字证书，该证书内包含用户的个人信息和他的公钥信息，同时还附有认证中心的签名信息。用户就可以使用自己的数字证书进行相关的各种活动。数字证书由独立的证书发行机构发布。数字证书各不相同，每种证书可提供不同级别的可信度。可以从证书发行机构获得您自己的数字证书。
+数字证书的工作原理为：数字证书采用公钥体制，即利用一对互相匹配的密钥进行加密、解密。每个用户自己设定一把特定的仅为本人所知的私有密钥(私钥)，用它进行解密和签名;同时设定一把公共密钥(公钥)并由本人公开，为一组用户所共享，用于加密和验证签名。当发送一份保密文件时，发送方使用接收方的公钥对数据加密，而接收方则使用自己的私钥解密，这样信息就可以安全无误地到达目的地了。通过数字的手段保证加密过程是一个不可逆过程，即只有用私有密钥才能解密。在公开密钥密码体制中，常用的一种是RSA体制。其数学原理是将一个大数分解成两个质数的乘积，加密和解密用的是两个不同的密钥。即使已知明文、密文和加密密钥(公开密钥)，想要推导出解密密钥(私密密钥)，在计算上是不可能的。按当下计算机技术水平，要破解1024位RSA密钥，需要上千年的计算时间。公开密钥技术解决了密钥发布的管理问题，商户可以公开其公开密钥，而保留其私有密钥。购物者可以用人人皆知的公开密钥对发送的信息进行加密，安全地传送给商户，然后由商户用自己的私有密钥进行解密。
+用户也可以采用自己的私钥对信息加以处理，由于密钥仅为本人所有，这样就产生了别人无法生成的文件，也就形成了数字签名。采用数字签名，能够确认以下两点:
+保证信息是由签名者自己签名发送的，签名者不能否认或难以否认。
+保证信息自签发后到收到为止未曾作过任何修改，签发的文件是真实文件
+
+## 【实验环境】
+Windows2008
+## 【实验步骤】
+### 一、CA的搭建
+1.1 点击【开始|管理工具|服务器管理器】，打开服务器管理器。如图1所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_86908)</center>
+<center>图1</center>
+
+1.2 点击【添加角色】, 需要重启虚拟机,刷新网页。如图2所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_35476)</center>
+<center>图2</center>
+
+1.3 进入到【添加角色向导】，点击【下一步】。如图3所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_21101)</center>
+<center>图3</center>
+1.4勾选【Active Directory证书服务】，点击【下一步】。如图4所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_64150)</center>
+<center>图4</center>
+
+1.5 显示出Active Directory 证书服务简介，点击【下一步】。如图5所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_29339)</center>
+<center>图5</center>
+
+1.6 勾选（默认）【证书颁发机构】，勾选【证书颁发机构web注册】，直接点击【添加所需的角色服务】。如图6所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_84679)</center>
+<center>图6</center>
+1.7 选择两项服务之后，点击【下一步】即可。如图7所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_57508)</center>
+<center>图7</center>
+
+1.8 指定安装类型，默认即可，点击【下一步】。如图8所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_82749)</center>
+<center>图8</center>
+
+1.9 选择【根 CA】，点击【下一步】。如图9所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_11273)</center>
+<center>图9</center>
+
+1.10	选择【新建密钥】，点击【下一步】，如图10所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_85296)</center>
+<center>图10</center>
+
+1.11 进入到CA配置加密页面，默认即可，点击【下一步】。如图11所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_12468)</center>
+<center>图11</center>
+
+1.12 输入CA的名字【shiyanbar】，点击【下一步】。如图12所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_29360)</center>
+<center>图12</center>
+
+1.13 设置证书的有效期，默认即可，点击【下一步】。如图13所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_69211)</center>
+<center>图13</center>
+
+1.14 配置证书数据库，默认即可，点击【下一步】。如图14所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_24746)</center>
+<center>图14</center>
+
+1.15 进入到Web服务器（IIS）配置，点击【下一步】。如图15所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_71326)</center>
+<center>图15</center>
+
+1.16 根据需要勾选必要的服务，点击【下一步】。如图16所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_46742)</center>
+<center>图16</center>
+
+1.17 点击【安装】，即可进行安装。如图17所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_11113)</center>
+<center>图17</center>
+
+1.18 提示安装成功，点击【关闭】即可。如图18所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_87966)</center>
+<center>图18</center>
+
+1.19 打开IE浏览器，【工具|Internet选项|安全|受信任的站点】，将地址`【http://192.168.1.3】`添加到可信站点中。如图19所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_76441)</center>
+<center>图19</center>
+
+1.20 在IE浏览器中输入地址【http://localhost/certsrv】，即可使用证书服务了。如图20所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_90093)</center>
+<center>图20</center>
+
+### 二、服务器证书的申请与颁发
+2.1 点击【开始|管理工具|IIS】。如图21所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_86556)</center>
+<center>图21</center>
+
+2.2 点击【服务器证书】，出现服务器证书页面。如图22所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_71661)</center>
+<center>图22</center>
+
+2.3 在右侧操作栏中，点击【创建证书申请】，弹出申请证书页面，填写相关信息，点击【下一步】。如图23所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_65062)</center>
+<center>图23</center>
+
+2.4 选择加密服务提供程序，默认即可，点击【下一步】如图24所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_82312)</center>
+<center>图24</center>
+
+2.5 为申请的证书指定一个文件名，点击【完成】。（文件shiyanbar_https.txt需要手动创建）如图25所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_54686)</center>
+<center>图25</center>
+
+2.6 使用IE浏览器访问站点`【http://192.168.1.3/certsrv】`，如图26所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_57108)</center>
+<center>图26</center>
+
+2.7 点击【申请证书】，继续点击【高级证书申请】(若直接转到如图28界面，则跳过本步骤)。点击第二项【使用bas64编码的CMC.........】。如图27所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_78040)</center>
+<center>图27</center>
+
+2.8将之前保存的密钥文档文件找到并打开，将里面的文本信息复制并粘贴到“Base-64编码的证书申请”文本框中；确定文本内容无误后，点击【提交】。如图28所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_43671)</center>
+<center>图28</center>
+
+2.9 此时可以看到提交信息，申请已经提交给了服务器，关闭IE。如图29所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_19884)</center>
+<center>图29</center>
+
+2.10打开证书服务器处理用户刚才提交的证书申请；点击【开始|运行】，输入：certsrv.msc，然后回车就会打开证书服务功能界面，找到【挂起的申请】位置，可以看到之前提交的证书申请。如图30所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_25490)</center>
+<center>图30</center>
+
+2.11 右键点击记录【所有任务|颁发】，记录从界面中消失，点击【颁发的证书】，看到有一条记录，即说明证书申请和颁发成功。如图31所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_45945)</center>
+<center>图31</center>
+
+### 三、服务器证书的下载与安装
+3.1 打开IE浏览器，输入地址`【http://192.168.1.3/certsrv】`，点击【查看挂起的证书申请的状态】，之后会进入“查看挂起的证书申请的状态”页面，点击【保存的申请证书】。如图32所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_18717)</center>
+<center>图32</center>
+
+3.2 点选【Base64编码】，点击【下载证书】，并且将下载的证书保存。如图33所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_51664)</center>
+<center>图33</center>
+
+3.3 打开IIS管理器，点击【服务器证书|完成证书申请】。选择刚才保存的证书。输入【shiyanbar_https】,点击确定。如图34所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_90734)</center>
+<center>图34</center>
+
+3.4 完成上述操作之后，可以看到刚刚安装好的服务器证书。如图35所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_95146)</center>
+<center>图35</center>
+
+### 四、发布HTTPS协议
+4.1 打开默认网站站点。如图36所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_95323)</center>
+<center>图36</center>
+
+4.2 点击【绑定】->【添加】，将类型该为【https】，点击【SSL证书】为【shiyanbar_https】,点击【确定】即可。如图37所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_47332)</center>
+<center>图37</center>
+
+4.3 网站绑定窗口会出现两个记录。如图38所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_32617)</center>
+<center>图38</center>
+
+4.4 进入到默认站点的SSL设置，点击【应用】。如图39所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_63121)</center>
+<center>图39</center>
+
+4.5 在IE浏览器输入`【http://192.168.1.3】`。如图40所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_49061)</center>
+<center>图40</center>
+
+4.6 在浏览器输入`【https://192.168.1.3】`。如图41所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_76837)</center>
+<center>图41</center>
+## 【实验思考】
+1.什么是SSL？
+<form  id="form1" class="editform1">
+<h2>题目一  从技术上讲，证书中的信息，不应该包括下列那些内容（  ）</h2>
+<label><input type="radio" name="result" value="A" />A:用户的基本信息（如名字，地区等）</label>
+<label><input type="radio" name="result" value="B" />B:用户的公钥</label>
+<label><input type="radio" name="result" value="C" />C:CA中心对该证书里面的信息的签名</label>
+<label><input type="radio" name="result" value="D" />D:用户的私钥</label>
+<input type="button" onclick="checkAnswer('form1')" value="提交" class="btn1" />
+<div class="tipstext"> </div>
+<input type="hidden" name="number" value='1' />
+</form>
+
+<form  id="form2" class="editform1">
+<h2>题目二  关于数字证书的原理，说法错误的是（  ）</h2>
+<label><input type="radio" name="result" value="A" />A:数字证书采用公钥体制，即利用一对互相匹配的密钥进行加密、解密。</label>
+<label><input type="radio" name="result" value="B" />B:当发送一份保密文件时，发送方使用接收方的公钥对数据加密，而接收方则使用自己的私钥解密，这样信息就可以安全无误地到达目的地了。</label>
+<label><input type="radio" name="result" value="C" />C:通过数字的手段保证加密过程是一个可逆过程。</label>
+<label><input type="radio" name="result" value="D" />D:在公开密钥密码体制中，常用的一种是RSA体制。</label>
+<input type="button" onclick="checkAnswer('form2')" value="提交" class="btn1" />
+<div class="tipstext"> </div>
+<input type="hidden" name="number" value='2' />
+</form></textarea>
+                                </div>
+                                <script src="/editor.md-master/lib/marked.min.js"></script>
+                                <script src="/editor.md-master/lib/prettify.min.js"></script>
+
+                                <script src="/editor.md-master/lib/raphael.min.js"></script>
+                                <script src="/editor.md-master/lib/underscore.min.js"></script>
+<!--                                    <script src="/editor.md-master/lib/sequence-diagram.min.js"></script>
+                                <script src="/editor.md-master/lib/flowchart.min.js"></script>
+                                <script src="/editor.md-master/lib/jquery.flowchart.min.js"></script>-->
+
+                                <script src="/editor.md-master/editormd.js"></script>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        var testEditormdView2;
+
+                                        testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
+                                            //markdown        : "" ,
+                                            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                                            tocm            : true,                              
+                                            emoji           : true,
+                                            taskList        : true,
+                                            tex             : false,  
+                                            flowChart       : false,  
+                                            sequenceDiagram : false,
+                                            tocStartLevel : 2,
+
+                                        });
+
+
+                                    });
+                                </script>
+
+                            </div>
+                        </ul>
+
+                        <ul class="AQ tab_con" style="display:none;">
+                            <!-- 评论 -->
+                            <div class="pl-input-wrap">
+                                <form action="" method="post" class="form">
+                                    <div class="pl-input-inner">
+                                        <textarea id="discuss" class="chackTextarea" onkeyup="words_deal();"    onclick="myFocus()" onfocus="myFocus()" onblur="myBlur()" placeholder="字数限制140字！"></textarea>
+                                    </div>
+                                    <div class="pl-input-btm clearfix">
+    <!--                                    <dl class="userSetTab">
+                                            <dt class="cur"><i></i>吐槽</dt>
+                                            <dt><i></i>问题</dt>
+                                        </dl>已经去掉-->
+                                        <p class="num-limit"><b class="num">140</b>字</p>
+                                        <input type="button" class="course-btn r" onclick="release(this)" value="提交">
+                                    </div>
+                                </form>
+                            </div>
+                            <!--评论list-->
+                <div class="noteswrap">
+    <div class="wrapexperselect clearfix">
+        <div class="filter-btn">
+            <label>
+                <input id="discuss_myself" type="checkbox" name="">
+                <span>只看自己</span>
+            </label>
+        </div>
+    </div>
+		<script id="discusslist_script" type="text/html">
+		{{# for(var i =0,len = d.paginator.length;i<len;i++){ }}
+		<li class="clr">
+			<div class="ds_author QAauthor">
+                            <img alt="{{# if(d.paginator[i].name == null){ }}{{ d.paginator[i].NickName }}{{# }else { }}{{ d.paginator[i].name }}{{# } }}" src="{{ d.paginator[i].Image }}">
+                            <h3 title="{{# if(d.paginator[i].name == null){ }}{{ d.paginator[i].NickName }}{{# }else { }}{{ d.paginator[i].name }}{{# } }}">{{# if(d.paginator[i].name == null){ }}{{ d.paginator[i].NickName }}{{# }else { }}{{ d.paginator[i].name }}{{# } }}</h3>
+                            <span class="icontips QA"></span>
+			</div>
+			<div class="ds_content QAcontent">
+				<div class="asktitlecon">
+					<span style="word-wrap:break-word;word-break:break-all;">{{ d.paginator[i].content }}</span>
+					<span class="answer"><i></i>
+											<a href="javascript:;" onclick="javascript:deploy(this,{{ (i+1) }},{{ d.paginator[i].reple_count }},'{{ d.paginator[i].name }}','{{ d.paginator[i].NickName }}');">回答({{ d.paginator[i].reple_count }})</a>
+									</div>
+				<div class="ds_btom QAbtom">
+					<span class="time">{{ d.paginator[i].create_time }}</span>
+					<span class="from">来自：<a href="/course/{{ d.paginator[i].courseware_id }}/vid/{{ d.paginator[i].chapter_id }}">{{ d.paginator[i].chapter_name }}</a></span>
+				</div>
+				<!--回答-->
+				<ul id="reply_{{ (i+1) }}" class="reply_content"  style="display:none">
+					<div class="pl-input-wrap child-input-Wrap">
+						{{# for(var r=0,rlen=d.paginator[i].reply_list.length;r<rlen;r++){ }}
+						<li class="clr">
+							<div class="ds_author QAauthor">
+                                                            <img alt="{{# if(d.paginator[i].reply_list[r].name == null){ }}{{ d.paginator[i].reply_list[r].NickName }}{{# }else { }}{{ d.paginator[i].reply_list[r].name }}{{# } }}"  src="{{ d.paginator[i].reply_list[r].Image }}">
+                                                            <h3 title="{{# if(d.paginator[i].reply_list[r].name == null){ }}{{ d.paginator[i].reply_list[r].NickName }}{{# }else { }}{{ d.paginator[i].reply_list[r].name }}{{# } }}">{{# if(d.paginator[i].reply_list[r].name == null){ }}{{ d.paginator[i].reply_list[r].NickName }}{{# }else { }}{{ d.paginator[i].reply_list[r].name }}{{# } }}</h3>
+							</div>
+							<div class="ds_content_wrap">
+								<div class="ds_content QAcontent">
+									<div class="asktitlecon" style="word-wrap:break-word;word-break:break-all;">
+										{{ d.paginator[i].reply_list[r].tag }}
+										{{ d.paginator[i].reply_list[r].content }}
+										<span class="answer"><a href="javascript:;" onclick="subreple(this,{{ d.paginator[i].reply_list[r].id }},{{ d.paginator[i].reply_list[r].main_parent_id }},'{{ d.paginator[i].reply_list[r].name }}',{{ (i+1) }},{{ d.paginator[i].reply_list[r].student_id  }},'{{ d.paginator[i].reply_list[r].NickName }}');">回复</a></span>
+									</div>
+									<div class="ds_btom QAbtom">
+										<span class="time">{{ d.paginator[i].reply_list[r].create_time }}</span>
+										<span class="floor">{{ (r+1) }}楼</span>
+									</div>
+								</div>
+							</div>
+						</li>
+						{{# } }}
+						<form id="form_{{ (i+1) }}" method="post" class="form">
+							<div class="child-pl-wrap">
+								<div class="pl-input-inner">
+                                    <textarea wrap="physical" class="chackTextarea textarea_{{ (i+1) }}" onfocus="myFocus()" onblur="myBlur()" placeholder=""  ></textarea>
+								</div>
+								<div class="pl-input-btm clearfix">
+									<input type="button" class="course-btn cancel r" value="取消" onclick="close_form(this,{{ (i+1) }});"  >
+									<input type="button" class="course-btn r" value="回复" reple_tag='1' to_student_id="" reple_id="{{ d.paginator[i].id }}" id="inp_{{ (i+1) }}" main_parent_id="" onclick="reple(this,{{ d.paginator[i].courseware_id }},{{ d.paginator[i].chapter_id }},{{ d.paginator[i].course_id }},{{ d.paginator[i].state }},{{ d.paginator[i].id }},{{ (i+1) }},{{ d.paginator[i].student_id }});" >
+								</div>
+							</div>
+						</form>
+					</div>
+				</ul>
+				<!--回答 end-->
+			</div>
+		</li>
+		{{# } }}<!--问答-->
+		</script>
+		<ul class="notes-list-wrap qa-list-wrap" id="reply_ul"></ul><!--模板引擎渲染容器-->
+</div>
+<!--加载更多-->
+	<div class="loadmore-wrap">
+	<button  id="discuss_loadmore" class="loadmore" onclick="javascript:discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','',0,0,'append');" bind-page-index="1">加载更多</button>
+</div> 
+                        </ul>
+                        <ul class="notes tab_con" style="display:none;">
+                            <!-- 笔记 -->
+                            <div class="pl-input-notes">
+                                <form action="" method="post" class="form">
+                                    <div class="pl-input-inner">
+                                        <textarea id="note" onkeyup="words_deal1();" class="chackTextarea"   onclick="myFocus()"  onfocus="myFocus()" onblur="myBlur()" placeholder="记录学习点滴"></textarea>
+                                    </div>
+                                    <div class="pl-input-btm clearfix">
+                                        <dl class="cell_notes">
+                                            <dt id="share" class="share curshare"><i></i>分享</dt>
+                                        </dl>
+                                        <p class="num-limit"><b class="notesNum">1000</b>字</p>
+                                        <input type="button" class="course-btn r" onclick="releaseNote(this)" value="提交">
+                                    </div>
+                                </form>
+                            </div>
+                            <!--笔记list-->
+                            <div class="noteswrap">
+    <div class="wrapexperselect clearfix">
+        <div class="filter-btn">
+            <label>
+                <input id="note_myself" type="checkbox" name="">
+                <span>只看自己</span>
+            </label>
+        </div>
+    </div>
+	<script id="note_script" type="text/html">
+	{{# for(var i =0,len = d.paginator.length;i<len;i++){ }}
+		<li class="clearfix">
+			<div class="ds_author">
+                            <img src="{{ d.paginator[i]['Image'] }}">
+                            <h3 title="{{# if(d.paginator[i].name == null){ }}{{ d.paginator[i].NickName }}{{# }else { }}{{ d.paginator[i].name }}{{# } }}">{{# if(d.paginator[i].name == null){ }}{{ d.paginator[i].NickName }}{{# }else { }}{{ d.paginator[i].name }}{{# } }}</h3>
+			</div>
+			<div class="ds_content">
+				<div class="asktitlecon" style="word-wrap:break-word;word-break:break-all;"><span>
+					{{ d.paginator[i]['note'] }}
+				</span>
+				</div>
+				<div class="ds_btom"><span class="time">{{ d.paginator[i]['create_time'] }}</span>
+					<span class="from">源自：<a href="/course/{{ d.paginator[i]['courseware_id'] }}/vid/{{ d.paginator[i]['chapter_id'] }}">{{ d.paginator[i]['chapter_name'] }}</a></span>
+				</div>
+			</div>
+		</li>
+	{{# } }}
+	</script>
+	<ul class="notes-list-wrap" id="note_ul"> </ul>
+	<!--加载更多-->
+	<div class="loadmore-wrap">
+            <button  id="note_loadmore" class="loadmore"  onclick="javascript:noteList(note_loadmore,'note_script','note_ul','/course/play/notelist','',0,0,'append');" bind-page-index="1">加载更多</button>
+	</div>
+</div>                        </ul>
+                    </div>
+
+
+                </div>
+
+                <!--inner end-->
+            </div>
+        </div>
+        <div id="dragMask"></div>
+        <!--dragbox end-->
+
+
+    </div>
+    <!--提示窗
+    <dl class="tips_layer">
+        <dt><img src="/images/video/1.jpg"></dt>
+        <dd>您前面有12位在等待ing..</dd>
+    </dl>-->
+</div>
+
+<!-- main end -->
+<div class="MaskWrap" style="display:none;">
+    <!--半透明底色-->
+</div>
+<!--复制到VM-->
+<div class="poplayer" style="display:none;" id="copyVMwrap">
+    <div class="close"></div>
+    <div class="tiptop"><span>复制到VM</span></div>
+    <div class="tipinfo">
+        <ul class="txt">
+            <li><b>向虚拟机中拷贝内容：</b>将内容复制到剪贴板输入框，点击“提交”，在虚拟机中使用粘贴</li>
+            <li><b>由虚拟机向外拷贝内容：</b>输入框中默认显示实验环境剪贴板的内容（在虚拟机中Ctrl-C或右键点击复制获取）</li>
+            <div class="pl-input-inner input-inner">
+                <textarea class="chackTextarea" style="height:130px;"id="noVNC_clipboard_text"   onclick="myFocus()"  onfocus="myFocus()" onblur="myBlur()" ></textarea>
+            </div>
+            <div class="sure clearfix">
+                <input type="button" class="course-btn r" value="确定" id="VMsure">
+                <input type="button" class="course-btn l" id='VMcancel' value="取消">
+            </div>
+        </ul>
+    </div>
+</div>
+<!--复制到VM end-->
+<div class="poplayer" style="display:none;" id="sharedesktopwrap">
+    <div class="close"></div>
+    <div class="tiptop"><span>共享桌面</span></div>
+    <div class="tipinfo">
+        <ul class="txt txtdesk">
+<!--            <li>
+                <p class="blue">只读模式</p>
+                <p>复制以下链接发给朋友，让他围观你的桌面操作</p>
+                <input class="bgcolor" id="viewOnly"  onclick="myFocus()" onfocus="myFocus()" onblur="myBlur()" value="http:///">
+            </li>-->
+            <li>
+                <p class="blue">协作模式</p>
+                <p>复制以下链接发给朋友，邀请他远程协助，与你共同完成实验任务</p>
+                <input class="bgcolor" id="viewSupport"   onclick="myFocus()"  onfocus="myFocus()" onblur="myBlur()" value="http://210.42.123.10:8081/">
+            </li>
+        </ul>
+    </div>
+</div>
+<!--共享桌面 end-->
+<div class="poplayer" style="display:none; width:550px;" id="stopwrap">
+    <div class="close"></div>
+    <div class="tiptop"><span>停止实验</span></div>
+    <div class="tipinfo">
+        <ul class="txt">
+            <li>
+                <p>停止实验后虚拟机将被<span style="color:#ff021d">删除</span>！<br>
+<a href="#" style="color:#089bef;"></a></p>
+         <a href="#" class="downloadbtn r" onclick="stopVm()" id="guanbixuniji">关闭虚拟机</a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--停止实验 end-->
+</body>
+
+
+<!-- 页面级 -->
+<script src="/js/course/jquey-bigic.js" type="text/javascript"></script>
+<script src="/js/course/experiment-v3.js" type="text/javascript"></script>
+<script src="/js/course/os-function.js" type="text/javascript"></script>
+<script type="text/javascript">
+//===================== guacamole ====================================//
+var left_h = $(window).height()-55;
+var left_w = $('.g-main').width();
+var x = $('.g-main').width();
+var y = $(window).height()-55;
+
+var windows = $(window);
+var l = $("#VMsure");
+var c = $("#noVNC_clipboard_text");
+var siteType = 1;
+var tunnel;
+var url = '';
+var guac;
+var guacHost;
+var display;
+var keyboard;
+var tunnel;
+var mouse;
+
+var stopTime = false;
+var os_time = "02:00:00";
+var array = os_time.replace("：", ":").split(":");
+//小时 
+var h = parseInt(array[0], 10);
+//分 
+var m = parseInt(array[1], 10);
+//秒 
+var s = parseInt(array[2], 10);
+document.getElementById('divOSTime').innerHTML = SetStringTime(h, m, s);
+
+function showTime() {
+    if (stopTime == true) {
+        h = parseInt(array[0], 10);
+        m = parseInt(array[1], 10);
+        s = parseInt(array[2], 10);
+        return;
+    }
+    //倒计时结束后，停止虚拟机
+    if (h == 0 && m == 0 && s == 0) {
+        stopVm();
+        h = parseInt(array[0], 10);
+        m = parseInt(array[1], 10);
+        s = parseInt(array[2], 10);
+        return;
+    }
+
+    //当秒走到0时，再次为60秒 
+    if (s == 0) {
+        s = 60;
+    }
+
+    if (s == 60) {            
+        //当分等于0时并且小时还多余1个小时的时候进里面看看
+        if (m == 0 && h > 0) {
+            //小时减一 
+            h -= 1;
+            //分钟自动默认为60分 
+            m = 60;
+            //秒自动默认为60秒 
+            s = 60;
+        }
+        //每次当秒走到60秒时，分钟减一 
+        m -= 1;
+    }
+    //秒继续跳动，减一 
+    s -= 1;
+    complete_time +=1;
+    document.getElementById('divOSTime').innerHTML = SetStringTime(h, m, s);
+    setTimeout('showTime()', 1000);
+}
+//时间字符格式化
+function SetStringTime(h, m, s) {
+    var sh = h;
+    var sm = m;
+    var ss = s;
+    if (h > 0 && h < 10) {
+        sh = "0" + h;
+    }
+    else if (h == 0) {
+        sh = "00";
+    }
+    if (m > 0 && m < 10) {
+        sm = "0" + m;
+    }
+    else if (m == 0) {
+        sm = "00";
+    }
+    if (s > 0 && s < 10) {
+        ss = "0" + s;
+    }
+    else if (s == 0) {
+        ss = "00";
+    }
+    return '剩余时间<em>'+sh+'</em>时<em>'+sm+'</em>分<em>'+ss+'</em>秒';
+    //return sh + ":" + sm + ":" + ss;
+}
+$("#display").mouseover(function(){
+    $(this).css('z-index',-100);
+});
+$("#display").mouseout(function(){
+    $(this).css('z-index',100);
+});
+$(document).ready(function () {
+            reinitSize();
+    var guac_width = $('.g-main').width();
+    var guac_height = $('.g-main').height();
+    var openInfo = common('/course/play/get-os-record','post',{'chapter_id':chapter_id,'courseware_id':courseware_id},'','');
+    if(openInfo.status==1){
+        guacHost = openInfo.data.guac_host;
+    }else{
+        guacHost = 'osdesktop.shiyanbar.com';
+    }
+    // If WebSocket available, try to use it.
+    if (window.WebSocket)
+        tunnel = new Guacamole.ChainedTunnel(
+            new Guacamole.WebSocketTunnel((siteType == 0 ? "wss://" : "ws://") + guacHost + "/websocket-tunnel"),
+            new Guacamole.HTTPTunnel((siteType == 0 ? "https://" : "http://") + guacHost + "/tunnel")
+        );
+
+    // If no WebSocket, then use HTTP.
+    else
+        tunnel = new Guacamole.HTTPTunnel((siteType == 0 ? "https://" : "http://") + guacHost + "/tunnel", !0)
+
+    // Instantiate client
+    guac = new Guacamole.Client(tunnel);
+console.log(guac);
+    $("#display").html(guac.getDisplay().getElement());
+    display = guac.getDisplay();
+     keyboard = new Guacamole.Keyboard(document);
+     mouse = new Guacamole.Mouse(guac.getDisplay().getElement());
+    guac.onerror = function (error) {       
+        console.log(error);
+        layer.alert('亲，网速不给力啊！请重新刷新');
+    };
+    function keydownEvent(keysym) {
+        guac.sendKeyEvent(1, keysym);
+    }
+    function keyupEvent(keysym) {
+        guac.sendKeyEvent(0, keysym);
+    }
+    // 调整虚拟机鼠标位置
+    function sendScaledMouseState(mouseState) {
+        var scaledState = new Guacamole.Mouse.State(
+            mouseState.x / display.getScale(),
+            mouseState.y / display.getScale(),
+            mouseState.left,
+            mouseState.middle,
+            mouseState.right,
+            mouseState.up,
+            mouseState.down
+        );
+        guac.sendMouseState(scaledState);
+    }
+    function myMouseMove(mouseState) {
+        // 隐藏虚拟机的鼠标指针
+        display.showCursor(false);
+        sendScaledMouseState(mouseState);
+    };
+
+    $('#sendCtrlAltDel').on("click", function () {
+        var KEYSYM_CTRL   = 0xFFE3;
+        var KEYSYM_ALT    = 0xFFE9;
+        var KEYSYM_DELETE = 0xFFFF;
+        guac.sendKeyEvent(1, KEYSYM_CTRL);
+        guac.sendKeyEvent(1, KEYSYM_ALT);
+        guac.sendKeyEvent(1, KEYSYM_DELETE);
+        guac.sendKeyEvent(0, KEYSYM_DELETE);
+        guac.sendKeyEvent(0, KEYSYM_ALT);
+        guac.sendKeyEvent(0, KEYSYM_CTRL);
+    });
+    if(openInfo.status === 1){
+        uuid = openInfo.data.support_connection_id;
+        var unique = openInfo.data.unique;
+//        $("#viewOnly").val("http://"+window.location.hostname+"/course/play/vm-view/uuid/"+unique+'/type/'+student_id);
+        $("#viewSupport").val("http://"+window.location.hostname+"/course/play/vm-support/uuid/"+unique+'/type/'+student_id);
+        $("#startbtn").hide();
+        $("#starting").hide();
+        $("#stopbtn").show();
+        $("#wrong").hide();
+        startExperiment = true;
+        showTime();
+        mark = setInterval("updateStudyTime()", 60000);
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: (siteType == 0 ? "https://" : "http://") + guacHost + "/api/tokens",
+            data: "username=desktop&password=asdfhqihwoerawfasdfasf",
+        }).done(function (result) {
+            //d = d + "&token=" + e.authToken + '&GUAC_DATA_SOURCE=default&GUAC_ID=vnc&GUAC_TYPE=c&GUAC_WIDTH=1920&GUAC_HEIGHT=500&GUAC_DPI=96&GUAC_AUDIO=audio%2Fogg&GUAC_AUDIO=audio%2Fmp4&GUAC_AUDIO=audio%2Fmpeg&GUAC_AUDIO=audio%2Fwebm&GUAC_AUDIO=audio%2Fwav&GUAC_VIDEO=video%2Fogg&GUAC_VIDEO=video%2Fmp4&GUAC_VIDEO=video%2Fwebm';
+            url = "token="+ result.authToken + '&GUAC_DATA_SOURCE=mysql&GUAC_ID='+uuid+'&GUAC_TYPE=c&GUAC_WIDTH='+guac_width+'&GUAC_HEIGHT='+guac_height+'&GUAC_DPI=96&GUAC_AUDIO=audio%2Fogg&GUAC_AUDIO=audio%2Fmp4&GUAC_AUDIO=audio%2Fmpeg&GUAC_AUDIO=audio%2Fwebm&GUAC_AUDIO=audio%2Fwav&GUAC_VIDEO=video%2Fogg&GUAC_VIDEO=video%2Fmp4&GUAC_VIDEO=video%2Fwebm';
+        }).fail(function (result) {
+            console.error("token error: ", result.status, result.statusText)
+        });
+//        url = "token="+ openInfo.data.guac_token + '&GUAC_DATA_SOURCE=mysql&GUAC_ID='+uuid+'&GUAC_TYPE=c&GUAC_WIDTH='+guac_width+'&GUAC_HEIGHT='+guac_height+'&GUAC_DPI=96&GUAC_AUDIO=audio%2Fogg&GUAC_AUDIO=audio%2Fmp4&GUAC_AUDIO=audio%2Fmpeg&GUAC_AUDIO=audio%2Fwebm&GUAC_AUDIO=audio%2Fwav&GUAC_VIDEO=video%2Fogg&GUAC_VIDEO=video%2Fmp4&GUAC_VIDEO=video%2Fwebm';
+        try{
+            guac.connect(url);     
+        }catch(ex){
+            console.log("guac error"+ex.message());
+        }
+    
+       
+        $("#wait-logo").hide();
+        $("#screenshot").on("click", function () {
+            saveToImage();
+        });
+        display.scale(1);
+        $(window).on('resize', function() {
+            var vmWidth = $('.g-main').width();
+            var vmHeight = $('.g-main').height();
+            winW = vmWidth;
+            winH = vmHeight;
+            var wWH = winW / winH;
+            if (wWH > (x / y)) {
+                display.scale(winH / y);
+            } else {
+                display.scale(winW / x);
+            }
+        });
+        // 初始化显示，鼠标和键盘
+        // 鼠标
+        mouse.onmousedown =
+        mouse.onmouseup   =
+        mouse.onmousemove = myMouseMove;
+        
+        // 键盘
+        keyboard.onkeydown = keydownEvent;
+        keyboard.onkeyup = keyupEvent;
+        
+        // 获取虚拟机剪切板
+        guac.onclipboard = function(stream, mimetype) {
+            // Only text/plain is supported for now
+            if (mimetype !== 'text/plain') {
+                stream.sendAck('只支持text/plain', Guacamole.Status.Code.UNSUPPORTED);
+                return;
+            }
+
+            var reader = new Guacamole.StringReader(stream);
+            var data = '';
+
+            // Append any received data to buffer
+            reader.ontext = function(text) {
+                data += text;
+                stream.sendAck('获取剪切板成功', Guacamole.Status.Code.SUCCESS);
+            };
+
+            // Update state when done
+            reader.onend = function() {
+                console.log(data);
+                c.val(data);
+            };
+            console.log(stream);
+        },
+        l.on("click", function () {
+            var t = c.val();
+            guac.setClipboard(t);
+            //e.flashMessage("success", "保存成功，请在实验环境中粘贴")
+        });
+    }
+    $("#display").click(function(){
+        $("#vmchange").blur(); 
+        keyboard.onkeydown = keydownEvent;
+        keyboard.onkeyup = keyupEvent;
+    });
+    
+});
+function myFocus(){
+    keyboard.onkeydown = null;
+    keyboard.onkeyup = null;
+}
+function myBlur(){
+    keyboard.onkeydown = keydownEvent;
+    keyboard.onkeyup = keyupEvent;
+}
+
+ //============================================================ 评论和问答=============================================================//   
+function words_deal() { 
+    var curLength=$("#discuss").val().length; 
+    if(curLength>140){ 
+      layer.alert("超过字数限制！" ); 
+    }else{
+      $(".num").text(140-$("#discuss").val().length); 
+    } 
+}
+function words_deal1() { 
+    var curLength=$("#note").val().length; 
+    if(curLength>1000){ 
+      layer.alert("超过字数限制！" ); 
+    }else{
+      $(".notesNum").text(1000-$("#note").val().length); 
+    } 
+}
+function release (obj){
+    var star = '1';
+    $(".userSetTab dt").each(function (){
+        var li = $(this).attr("class");
+        if(li == 'cur'){
+            var c = $(this).html();
+            if(c == "<i></i>吐槽"){
+              star = '2';
+            }
+            if(c == "<i></i>问题"){
+              star= '1' ;
+            }
+        }
+    });
+    var count = $(obj).parent().parent().find(".chackTextarea").val();
+    var url = '/course/play/reply';
+    if(count == ''){
+      layer.alert("总得说点什么吧？");
+    }else{
+        if(count == "聚焦学习疑问"){
+            layer.alert("总得说点什么吧？");
+        }else{
+            if(count.length > 140 ||  count.length < 0){
+                layer.alert("超过字数限制！" );
+            }else if(count.length < 0){
+                layer.alert("总得说点什么吧？");
+            }else{
+                $.ajax({
+                    dataType: 'JSON', //数据类型
+                    type: "POST",
+                    url: url,
+                    data:{
+                        chapter_id:'4',
+                        to_student_id:0,
+                        parent_id:0,
+                        main_parent_id:0,
+                        state:1,
+                        content:count,
+                        courseware_id:'8142',
+                        courseware_id_true:'8142',
+                    },
+                    beforeSend:function(XMLHttpRequest){
+                        $(obj).val("提交中");
+                        $(obj).attr("onclick","");
+                    },
+                    success: function (data) {
+                        $(obj).val("提交");
+                        $(obj).attr("onclick","release(this)");
+                        $(".num").text(140); 
+                        if(data == 1){
+                            $(obj).parent().parent().find(".chackTextarea").val("");
+                            $(".pl-list-wrap li").remove("");
+                            discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','4',"");
+                        }else{
+                            if(data == -100){
+                                layer.alert("课节id错误，不能回复！");
+                            }else if (data == -101){
+                                window.location.href='/'; 
+                            }else if (data == -102){
+                                layer.alert("对不起，当前登录账号没有权限");
+                            }else if (data == -103){
+                                layer.alert("课程id错误，不能回复");
+                            }else if (data == -104){
+                                layer.alert("实验id错误，不能回复！");
+                            }else if (data == -105){
+                                layer.alert("当前回复的问答不存在，不能回复");
+                            }else{
+                                layer.alert("问题发布失败");
+                            }
+                        }
+                    }
+                });
+            }
+        } 
+    }
+}
+function releaseNote(obj){
+    var isshart = $("#share").attr("class"); 
+    if(isshart == "share"){
+      isshart = 0 ;
+    }else{
+      isshart =1 ;
+    }
+    var count = $("#note").val();
+    var url = '/course/play/addnote';
+    if(count == ''){
+        layer.alert("笔记不能空着啊");
+    }else{
+        if(count == "记录学习点滴"){
+            layer.alert("笔记不能空着啊");
+        }else{
+            if(count.length > 1000){
+                layer.alert("超过字数限制！" );
+            }else if(count.length < 0){
+                layer.alert("笔记不能空着啊");
+            }else{
+              $.ajax({
+                //dataType: 'JSON', //数据类型
+                type: "POST",
+                url: url,
+                data:{
+                  'courseware_id':'8142',
+                  'count':count,
+                  'isshart': isshart,
+                  'chapter_id':'4',
+                },
+                beforeSend:function(XMLHttpRequest){
+                    $(obj).val("提交中");
+                    $(obj).attr("onclick","");
+                },
+                success: function (data) {
+                    $("#note").val("");
+                    $(obj).val("提交");
+                    $(obj).attr("onclick","releaseNote(this)");
+                    $(".notesNum").text(1000); 
+                    if(data == 1){
+                        $(".notes-list-wrap li").remove("");
+                        noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','4',"");
+                    }else{
+                                                if (data == -104){
+                            layer.alert("实验id错误，不能回复！");
+                        }else{
+                            layer.alert("笔记提交失败");
+                        }
+                    }
+                }
+              });
+            }
+        }
+    }
+
+}
+
+</script> 
+</html>
