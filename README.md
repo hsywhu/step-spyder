@@ -1,4 +1,4 @@
-﻿# Introdunction
+# Introdunction
 
 ---
 This is a simple script for crawling the web data from our experiment system.
