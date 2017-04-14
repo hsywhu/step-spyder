@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/js/jquery.lazyload.min.js"></script>
 <script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/tool/note.js"></script>
-<script type="text/javascript" src="/js/tool/discuss.js"></script>     <title>https站点搭建与CA实现-网络安全实验课(2017) - 武汉大学-</title> 
+<script type="text/javascript" src="/js/tool/discuss.js"></script>     <title>DVWA之php+mysql手工注入-网络安全实验课(2017) - 武汉大学-</title> 
 </head>
  
  
@@ -23,7 +23,7 @@
 <script type="text/javascript" src="/js/course/all.min.js"></script>
 <script type="text/javascript" src="/js/course/jquery.md5.js"></script>
 <script type="text/javascript">
-    var chapter_id = 4;
+    var chapter_id = 29;
     var courseware_id = 8142;
     var complete_time = 0;
     var student_id = 71446;
@@ -38,7 +38,7 @@
 <!-- main -->
 <div class="g-container clearfix">
     <input type="hidden" id="courseware_id" value="8142"/>
-    <input type="hidden" id="chapter_id" value="4"/>
+    <input type="hidden" id="chapter_id" value="29"/>
     <div class="toolbar">
         <a href="/course/8142" class="btn returnbtn"><i></i>返回课程</a>
         <a href="javascript:void(0);" class="btn startbtn" id="startbtn"><i></i><p id="startOrStop">开始</p></a>
@@ -128,8 +128,8 @@
                 <div class="dragTabList">
                     <ul class="rt_tabNav clearfix">
                         <li class="cur">指导</li>
-                        <li onclick="discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','4','');">问答</li>
-                        <li class="" onclick="noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','4','');">笔记</li>
+                        <li onclick="discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','29','');">问答</li>
+                        <li class="" onclick="noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','29','');">笔记</li>
                     </ul>
                     <!---->
                     <div class="list_tab_con">
@@ -138,212 +138,114 @@
                             <div class="add-member" id="addEval">
 
                                 <div id="test-editormd-view2">
-                                        <textarea id="append-test" style="display:none;"># https站点搭建与CA实现
-## 【实验目的】
-1）学习CA的搭建
-2）学习HTTPS站点的发布
+                                        <textarea id="append-test" style="display:none;"># DVWA之php+mysql手工注入
+##【实验目的】
+1)通过使用DVWA实例理解php中的Sql注入漏洞产生的原因及利用方法，结合实例掌握其加固方式。
 ## 【实验原理】
-所谓CA（Certificate Authority）认证中心，它是采用PKI（Public Key Infrastructure）公开密钥基础架构技术，专门提供网络身份认证服务，负责签发和管理数字证书，且具有权威性和公正性的第三方信任机构，它的作用就像我们现实生活中颁发证件的公司，如护照办理机构。目前国内的CA认证中心主要分为区域性CA认证中心和行业性CA认证中心。
-所谓根证书，是CA认证中心与用户建立信任关系的基础，用户的数字证书必须有一个受信任的根证书，用户的数字证书才是有效的。从技术上讲，证书其实包含三部分，用户的信息，用户的公钥，还有CA中心对该证书里面的信息的签名，要验证一份证书的真伪（即验证CA中心对该证书信息的签名是否有效），需要用CA中心的公钥验证，而CA中心的公钥存在于对这份证书进行签名的证书内，故需要下载该证书，但使用该证书验证又需先验证该证书本身的真伪，故又要用签发该证书的证书来验证，这样一来就构成一条证书链的关系，这条证书链在哪里终结呢？答案就是根证书，根证书是一份特殊的证书，它的签发者是它本身，下载根证书就表明您对该根证书以下所签发的证书都表示信任，而技术上则是建立起一个验证证书信息的链条，证书的验证追溯至根证书即为结束。所以说用户在使用自己的数字证书之前必须先下载根证书。
-数字证书里存有很多数字和英文，当使用数字证书进行身份认证时，它将随机生成128位的身份码，每份数字证书都能生成相应但每次都不可能相同的数码，从而保证数据传输的保密性，即相当于生成一个复杂的密码。
-数字证书绑定了公钥及其持有者的真实身份，它类似于现实生活中的居民身份证，所不同的是数字证书不再是纸质的证照，而是一段含有证书持有者身份信息并经过认证中心审核签发的电子数据，可以更加方便灵活地运用在电子商务和电子政务中。
-数字证书颁发过程一般为:用户首先产生自己的密钥对，并将公共密钥及部分个人身份信息传送给认证中心。认证中心在核实身份后，将执行一些必要的步骤，以确信请求确实由用户发送而来，然后，认证中心将发给用户一个数字证书，该证书内包含用户的个人信息和他的公钥信息，同时还附有认证中心的签名信息。用户就可以使用自己的数字证书进行相关的各种活动。数字证书由独立的证书发行机构发布。数字证书各不相同，每种证书可提供不同级别的可信度。可以从证书发行机构获得您自己的数字证书。
-数字证书的工作原理为：数字证书采用公钥体制，即利用一对互相匹配的密钥进行加密、解密。每个用户自己设定一把特定的仅为本人所知的私有密钥(私钥)，用它进行解密和签名;同时设定一把公共密钥(公钥)并由本人公开，为一组用户所共享，用于加密和验证签名。当发送一份保密文件时，发送方使用接收方的公钥对数据加密，而接收方则使用自己的私钥解密，这样信息就可以安全无误地到达目的地了。通过数字的手段保证加密过程是一个不可逆过程，即只有用私有密钥才能解密。在公开密钥密码体制中，常用的一种是RSA体制。其数学原理是将一个大数分解成两个质数的乘积，加密和解密用的是两个不同的密钥。即使已知明文、密文和加密密钥(公开密钥)，想要推导出解密密钥(私密密钥)，在计算上是不可能的。按当下计算机技术水平，要破解1024位RSA密钥，需要上千年的计算时间。公开密钥技术解决了密钥发布的管理问题，商户可以公开其公开密钥，而保留其私有密钥。购物者可以用人人皆知的公开密钥对发送的信息进行加密，安全地传送给商户，然后由商户用自己的私有密钥进行解密。
-用户也可以采用自己的私钥对信息加以处理，由于密钥仅为本人所有，这样就产生了别人无法生成的文件，也就形成了数字签名。采用数字签名，能够确认以下两点:
-保证信息是由签名者自己签名发送的，签名者不能否认或难以否认。
-保证信息自签发后到收到为止未曾作过任何修改，签发的文件是真实文件
-
+SQL Injection：在用户的输入没有为转义字符过滤时，就会发生这种形式的注入式攻击，它会被传递给一个SQL语句。这样就会导致应用程序的终端用户对数据库上的语句实施操纵。就是通过把SQL命令插入到Web表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。
+具体来说，它是利用现有应用程序，将（恶意）的SQL命令注入到后台数据库引擎执行的能力，它可以通过在Web表单中输入（恶意）SQL语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行SQL语句。
 ## 【实验环境】
-Windows2008
+windows 2003:`192.168.1.3`
 ## 【实验步骤】
-### 一、CA的搭建
-1.1 点击【开始|管理工具|服务器管理器】，打开服务器管理器。如图1所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_86908)</center>
+### 一、低安全等级文件包含
+1.1使用浏览器打开`http://192.168.1.3:8080/dvwa/login.php`，输入用户名：admin密码：password进行登录。如图1所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_45413)</center>
 <center>图1</center>
 
-1.2 点击【添加角色】, 需要重启虚拟机,刷新网页。如图2所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_35476)</center>
+1.2登录需要将DVWA的安全级别调整为low(j见红框内)。调整之后选择SQL Injection，进入页面。如图2所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_48342)</center>
 <center>图2</center>
 
-1.3 进入到【添加角色向导】，点击【下一步】。如图3所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_21101)</center>
+1.3提示输入User ID，输入正确的ID，将显示 ID First name，Surname信息。如图3所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_64727)</center>
 <center>图3</center>
-1.4勾选【Active Directory证书服务】，点击【下一步】。如图4所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_64150)</center>
+
+1.4可以得知此处为注入点，尝试输入“’”，返回错误。如图4所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_58203)</center>
 <center>图4</center>
 
-1.5 显示出Active Directory 证书服务简介，点击【下一步】。如图5所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_29339)</center>
+1.5尝试遍历数据库表，提示输入的值是ID，可以初步判断此处为数字类型的注入。尝试输入：1 or 1=1 ，尝试遍历数据库表。如图5所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_24591)</center>
 <center>图5</center>
 
-1.6 勾选（默认）【证书颁发机构】，勾选【证书颁发机构web注册】，直接点击【添加所需的角色服务】。如图6所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_84679)</center>
+1.6尝试输入：1 or 1=1,想要遍历数据库表，并没有达成目的，猜测程序将此处看成了字符型，可以尝试输入：1’ or ‘1’=’1后遍历出了数据库中的所有内容。下面尝试结合各种不同语句，得到不同的结果。如图6所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_87635)</center>
 <center>图6</center>
-1.7 选择两项服务之后，点击【下一步】即可。如图7所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_57508)</center>
+
+1.7利用order by num语句来测试查询信息列表尝，修改num的值，这里我们输入" 1'order by 1 - - "结果页面正常显示，注意- -后面有空格。继续测试，" 1'order by 2 - - "," 1'order by 3 - - "，当输入3是，页面报错。页面错误信息如下，Unknown column '3' in 'order clause'，由此我们判断查询结果值为2列。如图7所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_15397)</center>
 <center>图7</center>
 
-1.8 指定安装类型，默认即可，点击【下一步】。如图8所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_82749)</center>
+1.8 通过使用user()，database()，version()三个内置函数得到连接数据库的账户名、数据库名称，数据库版本信息，首先参数注入：`1' and 1=2 union select 1,2 --。` （注意— 后有空格）。如图8所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_23692)</center>
 <center>图8</center>
 
-1.9 选择【根 CA】，点击【下一步】。如图9所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_11273)</center>
+由上图得知，从而得出First name处显示结果为查询结果第一列的值，surname处显示结果为查询结果第二列的值。
+1.9在得知显示之后，使用user()，database()，version()三个内置函数得到连接数据库的账户名、数据库名称，数据库版本信息。通过注入：`1' and 1=2 union select user(),database() --`得到数据库用户以及数据库名称（注意--后有空格）。连接数据库的用户为root@localhost,数据库名称为dvwa,。如图9所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_62655)</center>
 <center>图9</center>
 
-1.10	选择【新建密钥】，点击【下一步】，如图10所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_85296)</center>
+1.10通过注入：`1' and 1=2 union select version(),database() -- `得到数据库版本信息，此处数据版本为：5.0.90-community-nt 。如图10所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_83473)</center>
 <center>图10</center>
 
-1.11 进入到CA配置加密页面，默认即可，点击【下一步】。如图11所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_12468)</center>
+1.11通过注入：`1'and 1=2 union select 1,@@global.version_compile_os from mysql.user --`获得操作系统信息。如图11所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_94423)</center>
 <center>图11</center>
 
-1.12 输入CA的名字【shiyanbar】，点击【下一步】。如图12所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_29360)</center>
+1.12通过注入：`1' and 1=2 union select 1,schema_name from information_schema.schemata -- `（注意— 后有空格）查询mysql数据库，所有数据库名字：这里利用mysql默认的数据库infromation_schema，该数据库存储了Mysql所有数据库和表的信息。如图12所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_21763)</center>
 <center>图12</center>
 
-1.13 设置证书的有效期，默认即可，点击【下一步】。如图13所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_69211)</center>
+1.13通过注入：`1' and exists(select * from users) -- `猜解dvwa数据库中的表名。利用1‘ and exists(select * from 表名)，这里测试的结果，表名为users，在真实渗透测试环境中，攻击者往往关心存储管理员用户与密码信息的表。如图13所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_36450)</center>
 <center>图13</center>
 
-1.14 配置证书数据库，默认即可，点击【下一步】。如图14所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_24746)</center>
+1.14 猜解字段名：`1' and exists(select 表名 from users) --`,这里测试的字段名有first_name,last_name使用：`1' and exists(select first_name from users) -- 和1' and exists(select last_name from users) `–猜解字段名。如图14所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_21940)</center>
 <center>图14</center>
 
-1.15 进入到Web服务器（IIS）配置，点击【下一步】。如图15所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_71326)</center>
+1.15爆出数据库中字段的内容` 1' and 1=2 union select first_name,last_name from users -- `,这里其实如果是存放管理员账户的表，那么用户名，密码信息字段就可以爆出来了。如图15所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_94412)</center>
 <center>图15</center>
 
-1.16 根据需要勾选必要的服务，点击【下一步】。如图16所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_46742)</center>
+1.16查看low等级源代码。如图16所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_37330)</center>
 <center>图16</center>
 
-1.17 点击【安装】，即可进行安装。如图17所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_11113)</center>
+通过代码可以看出，对输入$id的值没有进行任何过滤就直接放入了SQL语句中进行处理，这样带来了极大的隐患。
+### 二、中等等级代码分析
+2.1 将DVWA安全级别调整为medium，查看源代码。如图17所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_95600)</center>
 <center>图17</center>
 
-1.18 提示安装成功，点击【关闭】即可。如图18所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_87966)</center>
+通过源代码可以看出，在中等级别时对输入的$id的值使用mysql_real_eascape_string()函数进行了处理。在PHP中，使用mysql_real_eascape_string()函数用来转义SQL语句中使用字符串的特殊字符。但是使用这个函数对参数进行转换是存在绕过的。只需要将攻击字符进行转换一下编码格式即可绕过该防护函数。比如使用url编码等方式。同时发现SQL语句中变成了“WHERE user_id = $id”，此处变成了数字型注入，所以此处使用mysql_real_escape_string()函数并没有起到防护的作用。可以通过类似于“1 or 1= 1”的语句来进行注入。
+### 三、高等级代码分析
+3.1 将DVWA安全级别调整为medium，查看源代码。如图18所示
+<center>![](http://img.shiyanbar.net/UploadImage/2016/3/7/20_75240)</center>
 <center>图18</center>
 
-1.19 打开IE浏览器，【工具|Internet选项|安全|受信任的站点】，将地址`【http://192.168.1.3】`添加到可信站点中。如图19所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_76441)</center>
-<center>图19</center>
-
-1.20 在IE浏览器中输入地址【http://localhost/certsrv】，即可使用证书服务了。如图20所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_90093)</center>
-<center>图20</center>
-
-### 二、服务器证书的申请与颁发
-2.1 点击【开始|管理工具|IIS】。如图21所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_86556)</center>
-<center>图21</center>
-
-2.2 点击【服务器证书】，出现服务器证书页面。如图22所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_71661)</center>
-<center>图22</center>
-
-2.3 在右侧操作栏中，点击【创建证书申请】，弹出申请证书页面，填写相关信息，点击【下一步】。如图23所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_65062)</center>
-<center>图23</center>
-
-2.4 选择加密服务提供程序，默认即可，点击【下一步】如图24所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_82312)</center>
-<center>图24</center>
-
-2.5 为申请的证书指定一个文件名，点击【完成】。（文件shiyanbar_https.txt需要手动创建）如图25所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_54686)</center>
-<center>图25</center>
-
-2.6 使用IE浏览器访问站点`【http://192.168.1.3/certsrv】`，如图26所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_57108)</center>
-<center>图26</center>
-
-2.7 点击【申请证书】，继续点击【高级证书申请】(若直接转到如图28界面，则跳过本步骤)。点击第二项【使用bas64编码的CMC.........】。如图27所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_78040)</center>
-<center>图27</center>
-
-2.8将之前保存的密钥文档文件找到并打开，将里面的文本信息复制并粘贴到“Base-64编码的证书申请”文本框中；确定文本内容无误后，点击【提交】。如图28所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_43671)</center>
-<center>图28</center>
-
-2.9 此时可以看到提交信息，申请已经提交给了服务器，关闭IE。如图29所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_19884)</center>
-<center>图29</center>
-
-2.10打开证书服务器处理用户刚才提交的证书申请；点击【开始|运行】，输入：certsrv.msc，然后回车就会打开证书服务功能界面，找到【挂起的申请】位置，可以看到之前提交的证书申请。如图30所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_25490)</center>
-<center>图30</center>
-
-2.11 右键点击记录【所有任务|颁发】，记录从界面中消失，点击【颁发的证书】，看到有一条记录，即说明证书申请和颁发成功。如图31所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_45945)</center>
-<center>图31</center>
-
-### 三、服务器证书的下载与安装
-3.1 打开IE浏览器，输入地址`【http://192.168.1.3/certsrv】`，点击【查看挂起的证书申请的状态】，之后会进入“查看挂起的证书申请的状态”页面，点击【保存的申请证书】。如图32所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_18717)</center>
-<center>图32</center>
-
-3.2 点选【Base64编码】，点击【下载证书】，并且将下载的证书保存。如图33所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_51664)</center>
-<center>图33</center>
-
-3.3 打开IIS管理器，点击【服务器证书|完成证书申请】。选择刚才保存的证书。输入【shiyanbar_https】,点击确定。如图34所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_90734)</center>
-<center>图34</center>
-
-3.4 完成上述操作之后，可以看到刚刚安装好的服务器证书。如图35所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_95146)</center>
-<center>图35</center>
-
-### 四、发布HTTPS协议
-4.1 打开默认网站站点。如图36所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_95323)</center>
-<center>图36</center>
-
-4.2 点击【绑定】->【添加】，将类型该为【https】，点击【SSL证书】为【shiyanbar_https】,点击【确定】即可。如图37所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_47332)</center>
-<center>图37</center>
-
-4.3 网站绑定窗口会出现两个记录。如图38所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_32617)</center>
-<center>图38</center>
-
-4.4 进入到默认站点的SSL设置，点击【应用】。如图39所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_63121)</center>
-<center>图39</center>
-
-4.5 在IE浏览器输入`【http://192.168.1.3】`。如图40所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_49061)</center>
-<center>图40</center>
-
-4.6 在浏览器输入`【https://192.168.1.3】`。如图41所示
-<center>![](http://img.shiyanbar.net/UploadImage/2016/2/19/20_76837)</center>
-<center>图41</center>
+从源代码中可以看出，此处认为字符型注入。对传入$id的值使用stripslashes()函数处理以后，在经过到$mysql_real_escape_string()函数进行第二次过滤。在默认情况下，PHP会对所有的GET，POST，,和cookie数据自动运行addslashes()，adslashers()函数返回在部分与定义之前添加反斜杠。就是将“’”变成“\’”，Stripslashes()函数则是删除由addslashes()函数添加的反斜杠。在使用两个函数进行过滤之后再使用is_numric()函数检查$id的值是否为数字，彻底断绝了注入的存在。此种防护不存在绕过的可能。
 ## 【实验思考】
-1.什么是SSL？
+1.如果为字符型注入，且防护不完善，该如何绕过。
+
+
 <form  id="form1" class="editform1">
-<h2>题目一  从技术上讲，证书中的信息，不应该包括下列那些内容（  ）</h2>
-<label><input type="radio" name="result" value="A" />A:用户的基本信息（如名字，地区等）</label>
-<label><input type="radio" name="result" value="B" />B:用户的公钥</label>
-<label><input type="radio" name="result" value="C" />C:CA中心对该证书里面的信息的签名</label>
-<label><input type="radio" name="result" value="D" />D:用户的私钥</label>
+<h2>题目一 下列那个函数不是对php的过滤函数：（）</h2>
+<label><input type="radio" name="result" value="A" />A  mysql_query()</label>
+<label><input type="radio" name="result" value="B" />B  mysql_real_escape_string()</label>
+<label><input type="radio" name="result" value="C" />C  stripslashes()</label>
+<label><input type="radio" name="result" value="D" />D  addslashes()</label>
 <input type="button" onclick="checkAnswer('form1')" value="提交" class="btn1" />
 <div class="tipstext"> </div>
 <input type="hidden" name="number" value='1' />
 </form>
 
-<form  id="form2" class="editform1">
-<h2>题目二  关于数字证书的原理，说法错误的是（  ）</h2>
-<label><input type="radio" name="result" value="A" />A:数字证书采用公钥体制，即利用一对互相匹配的密钥进行加密、解密。</label>
-<label><input type="radio" name="result" value="B" />B:当发送一份保密文件时，发送方使用接收方的公钥对数据加密，而接收方则使用自己的私钥解密，这样信息就可以安全无误地到达目的地了。</label>
-<label><input type="radio" name="result" value="C" />C:通过数字的手段保证加密过程是一个可逆过程。</label>
-<label><input type="radio" name="result" value="D" />D:在公开密钥密码体制中，常用的一种是RSA体制。</label>
-<input type="button" onclick="checkAnswer('form2')" value="提交" class="btn1" />
-<div class="tipstext"> </div>
-<input type="hidden" name="number" value='2' />
-</form></textarea>
+
+
+
+
+</textarea>
                                 </div>
                                 <script src="/editor.md-master/lib/marked.min.js"></script>
                                 <script src="/editor.md-master/lib/prettify.min.js"></script>
@@ -629,7 +531,7 @@ var tunnel;
 var mouse;
 
 var stopTime = false;
-var os_time = "02:00:00";
+var os_time = "01:20:00";
 var array = os_time.replace("：", ":").split(":");
 //小时 
 var h = parseInt(array[0], 10);
@@ -932,7 +834,7 @@ function release (obj){
                     type: "POST",
                     url: url,
                     data:{
-                        chapter_id:'4',
+                        chapter_id:'29',
                         to_student_id:0,
                         parent_id:0,
                         main_parent_id:0,
@@ -952,7 +854,7 @@ function release (obj){
                         if(data == 1){
                             $(obj).parent().parent().find(".chackTextarea").val("");
                             $(".pl-list-wrap li").remove("");
-                            discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','4',"");
+                            discussList('#discuss_loadmore', 'discusslist_script', 'reply_ul', '/course/play/discusslist','8142','29',"");
                         }else{
                             if(data == -100){
                                 layer.alert("课节id错误，不能回复！");
@@ -1004,7 +906,7 @@ function releaseNote(obj){
                   'courseware_id':'8142',
                   'count':count,
                   'isshart': isshart,
-                  'chapter_id':'4',
+                  'chapter_id':'29',
                 },
                 beforeSend:function(XMLHttpRequest){
                     $(obj).val("提交中");
@@ -1017,7 +919,7 @@ function releaseNote(obj){
                     $(".notesNum").text(1000); 
                     if(data == 1){
                         $(".notes-list-wrap li").remove("");
-                        noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','4',"");
+                        noteList('#note_loadmore', 'note_script', 'note_ul', '/course/play/notelist','8142','29',"");
                     }else{
                                                 if (data == -104){
                             layer.alert("实验id错误，不能回复！");
